@@ -16,8 +16,11 @@
 # This Singularity .def file result in 1.6 GB image
 #
 
-BootStrap: yum
-OSVersion: 7
+BootStrap:docker
+From:centos:7
+
+#BootStrap: yum
+#OSVersion: 7
 
 MirrorURL: http://mirror.centos.org/centos-%{OSVERSION}/%{OSVERSION}/os/$basearch/
 Include: yum
