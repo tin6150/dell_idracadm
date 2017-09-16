@@ -8,22 +8,30 @@ This is a proof of concept container packaging.
 - dell tools installed to /opt/dell
 
 
-Getting and running this knime container:
+Getting and running this container:
 
 ::
 
 	singularity pull shub://tin6150/dell_idracadm.img
-        ln -s dell_idracadm.img idracadm
-        sudo ./idracadm help
         sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/bin/idracadm getsysinfo
-        # stupid command need write access somewhere, can't run in read-only container :(
+        sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  get BIOS.ProcSettings.LogicalProc 
+        sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  set BIOS.ProcSettings.LogicalProc Disabled
+        sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  jobqueue create BIOS.Setup.1-1
+        sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  serveraction powercycle
+        # stupid dell commands need write access somewhere, thus can't run in read-only container :(
+
+
+
+Note that dell_rbu with DKS shows error during build process, as kernel source is not included.  
+But the racadm and idracadm would work if matching hardware level is found.
+
 
 Creating containers (if not using Singularity Hub):
 
 ::
 
         Singularity=/opt/singularity/2.3.2/bin/singularity       
-        sudo $Singularity create --size 1900 dell_idracadm.img
+        sudo $Singularity create --size 1600 dell_idracadm.img
         sudo $Singularity bootstrap dell_idracadm.img  Singularity | tee sing.log 2>&1 
 
   
