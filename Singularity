@@ -16,20 +16,21 @@
 # This Singularity .def file result in 1.6 GB image
 #
 
-BootStrap:docker
-From:centos:7
+#BootStrap:docker
+#From:centos:7
 
-#BootStrap: yum
-#OSVersion: 7
+BootStrap: yum
+OSVersion: 7
 
 MirrorURL: http://mirror.centos.org/centos-%{OSVERSION}/%{OSVERSION}/os/$basearch/
 Include: yum
 
 %runscript
-    /opt/dell/srvadmin/bin/idracadm "$@"
+    echo "run eg: sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/bin/idracadm SUBCMD" 
+    ##/opt/dell/srvadmin/bin/idracadm "$@"  # dont work, need to write somewhere
 
 %post
-	yum -y install bash tar gzip bzip2 wget curl coreutils util-linux-ng which less vi kmod dmidecode libcmpiCppImpl0 openwsman-server sblim-sfcb sblim-sfcc net-snmp-utils  pciutils libxslt openssl setserial libwsman1 openwsman-client
+	yum -y install bash tar gzip bzip2 wget curl coreutils util-linux-ng which less vi kmod dmidecode libcmpiCppImpl0 openwsman-server sblim-sfcb sblim-sfcc net-snmp-utils  pciutils libxslt openssl setserial libwsman1 openwsman-client gcc
 	#yum -y install bash tar gzip bzip2 wget curl coreutils util-linux-ng which less vi kmod dmidecode 
 	#  libcmpiCppImpl0 
 	# openwsman-server 
