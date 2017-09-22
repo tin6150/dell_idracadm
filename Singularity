@@ -29,6 +29,7 @@ Include: yum
     echo "sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  set BIOS.ProcSettings.LogicalProc Disabled"
     echo "sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  jobqueue create BIOS.Setup.1-1"
     echo "sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  serveraction powercycle"
+    echo "The -w option may not always be needed, but racadm sometime need to write something somewhere :(  YMMV."
     ##/opt/dell/srvadmin/bin/idracadm "$@"  # dont really work, cuz need to write somewhere
 
 %post

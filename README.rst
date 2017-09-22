@@ -18,7 +18,7 @@ Getting and running this container:
         sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  set BIOS.ProcSettings.LogicalProc Disabled
         sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  jobqueue create BIOS.Setup.1-1
         sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  serveraction powercycle
-        # stupid dell commands need write access somewhere, thus can't run in read-only container :(
+    	The -w option may not always be needed, but racadm sometime need to write something somewhere :(  YMMV.
 
 
 
