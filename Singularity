@@ -49,3 +49,4 @@ Include: yum
 	find . -name *rpm -exec rpm -i --nodeps {} \;
 	echo 'PATH=$PATH:/opt/dell/srvadmin/bin:/opt/dell/srvadmin/sbin:/opt/dell/toolkit/bin/; export PATH' > /etc/profile.d/dell_env.sh 
 	chmod 664 /etc/profile.d/dell_env.sh
+
