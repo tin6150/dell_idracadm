@@ -2,7 +2,7 @@ Dell RacAdm and other bios tools (OSMA)
 =======================================
 
 
-This is a proof of concept container packaging.
+This singularity container contain sys admin tools for Dell computers.
 
 - centos 7
 - dell tools installed to /opt/dell
@@ -37,9 +37,9 @@ Creating containers (if not using Singularity Hub):
   
 Ref:
 
-- https://github.com/tin6150/singhub/centos7_racadm.def
 - https://github.com/tin6150/dell_idracadm
-- https://singularity-hub.org/collections/450/
+- https://singularity-hub.org/collections/304/
+- https://github.com/tin6150/singhub/centos7_racadm.def
 
 
 
