@@ -2,6 +2,8 @@
 # ie this definition file to contain Dell tools racadm / idracadm / omsa / ipmi
 # runs on CentOS 7
 
+# http://www.dell.com/support/home/us/en/19/drivers/DriversDetails?productCode=poweredge-r630&driverId=49T1M
+
 
 # Main motivation is to run 
 # /opt/dell/srvadmin/sbin/racadm set BIOS.ProcSettings.LogicalProc Disabled
@@ -41,7 +43,7 @@ Include: yum
 	mkdir src
 	cd src
     	#wget -nc https://downloads.dell.com/FOLDER04162301M/1/OM-SrvAdmin-Dell-Web-LX-8.5.0-2372.RHEL7.x86_64_A00.tar.gz -O racadm.tgz
-    	wget -nc http://www.dell.com/support/home/us/en/19/drivers/DriversDetails?productCode=poweredge-r630&driverId=49T1M -O racadm.tgz
+    	wget -nc https://downloads.dell.com/FOLDER04651962M/1/OM-MgmtStat-Dell-Web-LX-9.1.0-2771_A00.tar.gz -O racadm.tgz
 	tar xzf racadm.tgz 
 	rm      racadm.tgz
 	# find linux/RPMS/   | grep rpm | wc  = 56
