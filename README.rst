@@ -12,8 +12,9 @@ Getting and running this container:
 
 ::
 
-	singularity pull shub://tin6150/dell_idracadm.img
-        sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/bin/idracadm getsysinfo
+	singularity pull --name dell_idracadm.simg shub://tin6150/dell_idracadm.img
+             singularity exec    ./dell_idracadm.simg /opt/dell/srvadmin/bin/idracadm getsysinfo
+
         sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  get BIOS.ProcSettings.LogicalProc 
         sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  set BIOS.ProcSettings.LogicalProc Disabled
         sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  jobqueue create BIOS.Setup.1-1
@@ -21,18 +22,31 @@ Getting and running this container:
     	The -w option may not always be needed, but racadm sometime need to write something somewhere :(  YMMV.
 
 
+	# obtaining chassis serial from a C6320 node:
+        sudo singularity exec    ./dell_idracadm.img /usr/bin/ipmitool raw 0x30 0xc8 0x01 0x00 0x0b 0x00 0x00 0x00
+	# works for n0044.lr5 , use "xxd -r" to convert to ascii, which get JSGGK2
+	# 00 0b 00 00 00 0b 00 11 07 33 4a 53 47 47 4b 32
+
+
 
 Note that dell_rbu with DKS shows error during build process, as kernel source is not included.  
 But the racadm and idracadm would work if matching hardware level is found.
 
 
-Creating containers (if not using Singularity Hub):
+Creating containers
+ie, not using Singularity Hub, cuz need to create writable image (a la singularity < 2.4):
 
 ::
 
+	# Singularity 2.3.x
         Singularity=/opt/singularity/2.3.2/bin/singularity       
         sudo $Singularity create --size 1600 dell_idracadm.img
         sudo $Singularity bootstrap dell_idracadm.img  Singularity | tee sing.log 2>&1 
+
+	# Singularity 2.4
+        Singularity=/bin/singularity       
+        sudo $Singularity image.create --size 1600 dell_idracadm.img
+        singularity build dell_idracadm.img Singularity | tee sing.log 2>&1 
 
   
 Ref:

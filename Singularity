@@ -26,8 +26,8 @@ MirrorURL: http://mirror.centos.org/centos-%{OSVERSION}/%{OSVERSION}/os/$basearc
 Include: yum
 
 %runscript
-    echo "example runs (need container to be writable cuz dell commands need to write somewhere transiently):"
-    echo "sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/bin/idracadm getsysinfo " 
+    echo "example runs:"
+    echo "singularity exec ./dell_idracadm.simg /opt/dell/srvadmin/bin/idracadm getsysinfo " 
     echo "sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  get BIOS.ProcSettings.LogicalProc"
     echo "sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  set BIOS.ProcSettings.LogicalProc Disabled"
     echo "sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  jobqueue create BIOS.Setup.1-1"
@@ -35,10 +35,14 @@ Include: yum
     echo "The -w option may not always be needed, but racadm sometime need to write something somewhere :(  YMMV."
     ##/opt/dell/srvadmin/bin/idracadm "$@"  # dont really work, cuz need to write somewhere
 
+%help
+
+
 %post
-	yum -y install bash tar gzip bzip2 wget curl coreutils util-linux-ng which less vi kmod dmidecode libcmpiCppImpl0 openwsman-server sblim-sfcb sblim-sfcc net-snmp-utils  pciutils libxslt openssl setserial libwsman1 openwsman-client gcc
+	yum -y install bash tar gzip bzip2 wget curl coreutils util-linux-ng which less vi kmod dmidecode libcmpiCppImpl0 openwsman-server sblim-sfcb sblim-sfcc net-snmp-utils  pciutils libxslt openssl setserial libwsman1 openwsman-client gcc vim-common 
 	# dmidecode is needed by dell racadm, and many more dependencies as listed 
 	# kmod provides lsmod
+	# xxd -r will convert hex to ascii, said to be provided by  vim-common 
 	cd /opt
 	mkdir src
 	cd src
