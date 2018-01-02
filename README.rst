@@ -38,7 +38,7 @@ Creating containers (if not using Singularity Hub):
 Ref:
 
 - https://github.com/tin6150/dell_idracadm
-- https://singularity-hub.org/collections/304/
+- https://singularity-hub.org/collections/390/
 - https://github.com/tin6150/singhub/centos7_racadm.def
 
 
