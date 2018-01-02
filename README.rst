@@ -8,7 +8,7 @@ This singularity container contain sys admin tools for Dell computers.
 - dell tools installed to /opt/dell
 
 
-Getting and running this container:
+Running this container:
 
 ::
 
@@ -22,10 +22,11 @@ Getting and running this container:
     	The -w option may not always be needed, but racadm sometime need to write something somewhere :(  YMMV.
 
 
-	# obtaining chassis serial from a C6320 node:
-        sudo singularity exec    ./dell_idracadm.img /usr/bin/ipmitool raw 0x30 0xc8 0x01 0x00 0x0b 0x00 0x00 0x00
-	# works for n0044.lr5 , use "xxd -r" to convert to ascii, which get JSGGK2
+        sudo singularity exec ./dell_idracadm.simg /usr/bin/ipmitool raw 0x30 0xc8 0x01 0x00 0x0b 0x00 0x00 0x00 | singularity exec ./dell_idracadm.simg /usr/bin/xxd -r 
+	# get chassis serial from a C6320 node, write should not be needed.  eg output:
 	# 00 0b 00 00 00 0b 00 11 07 33 4a 53 47 47 4b 32
+	# 3JRKGK2
+
 
 
 
@@ -33,7 +34,7 @@ Note that dell_rbu with DKS shows error during build process, as kernel source i
 But the racadm and idracadm would work if matching hardware level is found.
 
 
-Creating containers
+Building the container:
 ie, not using Singularity Hub, cuz need to create writable image (a la singularity < 2.4):
 
 ::
