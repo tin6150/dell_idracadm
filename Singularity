@@ -1,4 +1,4 @@
-# Dell EMC OpenManage Linux Remote Access Utilities v 9.1.0 in a Singularity container 
+# Dell EMC OpenManage Linux Remote Access Utilities v 9.1.0-2771 in a Singularity container 
 # ie this definition file to contain Dell tools racadm / idracadm / omsa / ipmi
 # runs on CentOS 7
 
@@ -42,15 +42,15 @@ Include: yum
 	cd /opt
 	mkdir src
 	cd src
-    	#wget -nc https://downloads.dell.com/FOLDER04162301M/1/OM-SrvAdmin-Dell-Web-LX-8.5.0-2372.RHEL7.x86_64_A00.tar.gz -O racadm.tgz
-    	wget -nc https://downloads.dell.com/FOLDER04651962M/1/OM-MgmtStat-Dell-Web-LX-9.1.0-2771_A00.tar.gz -O racadm.tgz
+    	wget --no-verbose https://downloads.dell.com/FOLDER04651962M/1/OM-MgmtStat-Dell-Web-LX-9.1.0-2771_A00.tar.gz -O racadm.tgz
 	tar xzf racadm.tgz 
 	rm      racadm.tgz
-	# find linux/RPMS/   | grep rpm | wc  = 56
-	# find linux/custom/ | grep rpm | wc  = 70  # but only about 32 rpm got installed at the end. good enough for racadm
-	#cd linux/RPMS/supportRPMS/srvadmin/RHEL7/x86_64
-	cd linux/custom 
-	find . -name *rpm -exec rpm -i --nodeps {} \;
+	#cd linux/rac/RHEL7
+	find ./linux/rac/RHEL7                 -name *rpm -exec rpm -i --nodeps {} \;
+	find ./linux/bmc/ipmitool/RHEL7_x86_64 -name *rpm -exec rpm -i --nodeps {} \;
+	rpm -i --nodeps ./linux/bmc/osabmcutil9g-RHEL-4.4-0.i386.rpm
 	echo 'PATH=$PATH:/opt/dell/srvadmin/bin:/opt/dell/srvadmin/sbin:/opt/dell/toolkit/bin/; export PATH' > /etc/profile.d/dell_env.sh 
 	chmod 664 /etc/profile.d/dell_env.sh
+
+	# see git log b507d45 for install steps needed for prior version of OM tar file version (9.1.0)
 
