@@ -28,18 +28,37 @@ Include: yum
 %runscript
     echo "example runs:"
     echo "singularity exec ./dell_idracadm.simg /opt/dell/srvadmin/bin/idracadm getsysinfo " 
-    echo "sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  get BIOS.ProcSettings.LogicalProc"
-    echo "sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  set BIOS.ProcSettings.LogicalProc Disabled"
-    echo "sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  jobqueue create BIOS.Setup.1-1"
-    echo "sudo singularity exec -w ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  serveraction powercycle"
+    echo "sudo singularity exec -w -B /var/run ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  get BIOS.ProcSettings.LogicalProc"
+    echo "sudo singularity exec -w -B /var/run ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  set BIOS.ProcSettings.LogicalProc Disabled"
+    echo "sudo singularity exec -w -B /var/run ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  jobqueue create BIOS.Setup.1-1"
+    echo "sudo singularity exec -w -B /var/run ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm  serveraction powercycle"
+    echo "racadm writes to /var/run/local_racadm.pid"
+    echo "running with bind mound with /var/run work best, and should not need -w option"
     echo "The -w option may not always be needed, but racadm sometime need to write something somewhere :(  YMMV."
+    /opt/dell/srvadmin/sbin/racadm "$@"     # may not work unless writable
     ##/opt/dell/srvadmin/bin/idracadm "$@"  # dont really work, cuz need to write somewhere
 
 %help
+	Check if HyperThreading is enabled:
+	pdsh -w n00[00-99].phi0 "singularity exec             ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm get BIOS.ProcSettings.LogicalProc"
+
+	Turn off HyperThreading for many nodes at once using a sequence of commands:
+	pdsh -w n00[00-99].phi0 "singularity exec -B /var/run ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm set BIOS.ProcSettings.LogicalProc Disabled"
+	pdsh -w n00[00-99].phi0 "singularity exec -B /var/run ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm jobqueue create BIOS.Setup.1-1"
+	pdsh -w n00[00-99].phi0 "singularity exec -B /var/run ./dell_idracadm.img /opt/dell/srvadmin/sbin/racadm serveraction powercycle"
+
+	If "racadm help" return error like:
+	  >> One Instance of Local RACADM is already executing. Exiting the current session.
+	rm /var/run/local_racadm.pid
+	From inside the container if ran singularity with -w
+
+	NOTE: Singularity-hub build probably won't work for racadm
+	racadm may need to have been build on a Dell box with access to determine version of iDRAC available...
+	See README to build singularity locally (with writable image just in case)
 
 
 %post
-	yum -y install bash tar gzip bzip2 wget curl coreutils util-linux-ng which less vi kmod dmidecode libcmpiCppImpl0 openwsman-server sblim-sfcb sblim-sfcc net-snmp-utils  pciutils libxslt openssl setserial libwsman1 openwsman-client gcc vim-common 
+	yum -y install bash tar gzip bzip2 wget curl coreutils util-linux-ng which less vi kmod dmidecode libcmpiCppImpl0 openwsman-server sblim-sfcb sblim-sfcc net-snmp-utils  pciutils libxslt openssl setserial libwsman1 openwsman-client gcc vim-common strace
 	# dmidecode is needed by dell racadm, and many more dependencies as listed 
 	# kmod provides lsmod
 	# xxd -r will convert hex to ascii, said to be provided by  vim-common 
