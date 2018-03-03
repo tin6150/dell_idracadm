@@ -81,7 +81,7 @@ Include: yum
 	find ./linux/bmc/ipmitool/RHEL7_x86_64 -name *rpm -exec rpm -i --nodeps {} \;
 	rpm -i --nodeps ./linux/bmc/osabmcutil9g-RHEL-4.4-0.i386.rpm
 	echo 'PATH=$PATH:/opt/dell/srvadmin/bin:/opt/dell/srvadmin/sbin:/opt/dell/toolkit/bin/; export PATH' > /etc/profile.d/dell_env.sh 
-	chmod 664 /etc/profile.d/dell_env.sh:w
+	chmod 664 /etc/profile.d/dell_env.sh
 
 	# see git log b507d45 for install steps needed for prior version of OM tar file version (9.1.0)
 
