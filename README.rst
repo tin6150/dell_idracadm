@@ -36,6 +36,14 @@ But the racadm and idracadm would work if matching hardware level is found.
 
 Building the container:
 ie, not using Singularity Hub, cuz need to create writable image (a la singularity < 2.4):
+Actually, may not need writable image, just need to run as -B /var/run where writing (lock?) takes place.
+But singularity-hub version don't produce working racadm, cuz not correctly symlinked when build on machine w/o iDRAC ?
+
+So, for now, this recipe need to be executed locally.
+This has produced working container in regular use for racadm to make bios settings
+- /global/home/users/tin/sn-gh/dell_idracadm/dell_idracadm.img
+- /global/scratch/tin/singularity-repo/dell_idracadm.img
+
 
 ::
 

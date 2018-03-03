@@ -16,6 +16,14 @@
 # Singularity .def file adopted from https://github.com/singularityware/singularity/blob/master/examples/centos.def
 #
 
+### See README.rst for build info.
+### 
+### Container build by singularity will have usable racadm when container is build on a Dell machine
+### but don't seems to work when build by Singularity-Hub (VM? machine wihouth working iDRAC)
+###
+### May just need to sym link racadm to the right place.  More investigation TBA.
+###
+
 BootStrap:docker
 From:centos:7
 
@@ -76,4 +84,9 @@ Include: yum
 	chmod 664 /etc/profile.d/dell_env.sh
 
 	# see git log b507d45 for install steps needed for prior version of OM tar file version (9.1.0)
+
+	# Part 2:
+	# SuperMicro Update Manager (SUM)
+	# https://www.supermicro.com/solutions/SMS_SUM.cfm
+	# *sigh*  require java script to accept EULA to download :(
 
