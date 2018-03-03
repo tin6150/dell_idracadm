@@ -46,8 +46,11 @@ ie, not using Singularity Hub, cuz need to create writable image (a la singulari
 
 	# Singularity 2.4
         Singularity=/bin/singularity       
-        sudo $Singularity image.create --size 1600 dell_idracadm.img
+        sudo $Singularity image.create --size 2300 dell_idracadm.img
         singularity build dell_idracadm.img Singularity | tee sing.log 2>&1 
+
+	# think build this on a lenovo laptop...
+	# racadm was still okay.  so why did singularity-hub build result in non working img? 
 
   
 Ref:
