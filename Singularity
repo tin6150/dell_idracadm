@@ -66,10 +66,10 @@ Include: yum
 
 
 %post
-	yum -y install bash tar gzip bzip2 wget curl coreutils util-linux-ng which less vi kmod dmidecode libcmpiCppImpl0 openwsman-server sblim-sfcb sblim-sfcc net-snmp-utils  pciutils libxslt openssl setserial libwsman1 openwsman-client gcc vim-common strace
+	yum -y install bash tar gzip bzip2 wget curl coreutils util-linux-ng which less vi kmod dmidecode libcmpiCppImpl0 openwsman-server sblim-sfcb sblim-sfcc net-snmp-utils  pciutils libxslt openssl setserial libwsman1 openwsman-client gcc vim-common strace file  binutils
 	# dmidecode is needed by dell racadm, and many more dependencies as listed 
 	# kmod provides lsmod
-	# xxd -r will convert hex to ascii, said to be provided by  vim-common 
+	# vim-common provides xxd -r, which will convert hex to ascii
 	cd /opt
 	mkdir src
 	cd src
@@ -81,7 +81,7 @@ Include: yum
 	find ./linux/bmc/ipmitool/RHEL7_x86_64 -name *rpm -exec rpm -i --nodeps {} \;
 	rpm -i --nodeps ./linux/bmc/osabmcutil9g-RHEL-4.4-0.i386.rpm
 	echo 'PATH=$PATH:/opt/dell/srvadmin/bin:/opt/dell/srvadmin/sbin:/opt/dell/toolkit/bin/; export PATH' > /etc/profile.d/dell_env.sh 
-	chmod 664 /etc/profile.d/dell_env.sh
+	chmod 664 /etc/profile.d/dell_env.sh:w
 
 	# see git log b507d45 for install steps needed for prior version of OM tar file version (9.1.0)
 
